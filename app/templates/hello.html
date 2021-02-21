@@ -1,0 +1,32 @@
+<!-- use as base the file selected to be used with block -->
+{% extends 'base.html' %}
+<!-- import functions from other file -->
+{% import 'macros.html' as macros %}
+{% import 'bootstrap/wtf.html' as wtf %}
+<!-- use blocks for content -->
+{% block title %} 
+    {{ super() }}
+    Bienvenido 
+{% endblock%}
+<!-- estructuras de control -->
+{% block content%}
+    {% if username %}
+        <h1>Bienvenido {{ username | capitalize}}</h1>
+    {% endif %}
+    {% if user_ip %}
+        <h3>Your ip is {{ user_ip }}</h3>
+    {% else %}
+        <a href="{{ url_for('index') }}">Ir a inicio</a>
+    {% endif%}
+<!-- create a form with parameters in app / render forms -->
+    <div class="container">
+        <h2>Crear una nueva tarea</h2>
+        {{ wtf.quick_form(todo_form) }}
+    </div>
+    <ul class="list-group">
+        {% for todo in todos%}
+            {{ macros.render_todo(todo, delete_form, update_form) }}            
+        {% endfor %}
+    </ul>
+
+{% endblock %}
